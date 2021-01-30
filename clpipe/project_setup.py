@@ -4,7 +4,7 @@ from .config_json_parser import ClpipeConfigParser
 from pkg_resources import resource_stream
 import json
 from .template_flow import _templateflow_setup
-import datalad
+import datalad.api
 
 
 @click.command()
@@ -28,7 +28,7 @@ def project_setup(project_title = None, project_dir = None, source_data = None, 
     if symlink_source_data:
         os.symlink(os.path.abspath(org_source), os.path.join(os.path.abspath(project_dir), 'data_DICOMs'))
     bids_dir = config.config['DICOMToBIDSOptions']['BIDSDirectory']
-    os.system('dcm2bids_scaffold -o'+bids_dir)
+    datalad.api.run(cmd = 'dcm2bids_scaffold -o '+bids_dir, message = 'Setting up BIDS scaffold', outputs = [bids_dir], dataset = bids_dir)
     config.config_json_dump(config.config['ProjectDirectory'], 'clpipe_config.json')
 
     with resource_stream(__name__, 'data/defaultConvConfig.json') as def_conv_config:
@@ -39,5 +39,6 @@ def project_setup(project_title = None, project_dir = None, source_data = None, 
 
     os.makedirs(os.path.join(config.config['ProjectDirectory'], 'analyses'), exist_ok=True)
     os.makedirs(os.path.join(config.config['ProjectDirectory'], 'scripts'), exist_ok=True)
+    datalad.api.save(path = config.config["ProjectDirectory"], recursive = True)
     #print(os.path.join(os.path.abspath(project_dir), 'clpipe_config.json'))
     #_templateflow_setup(os.path.join(os.path.abspath(project_dir), 'clpipe_config.json'))
