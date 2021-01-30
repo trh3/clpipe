@@ -28,7 +28,7 @@ def project_setup(project_title = None, project_dir = None, source_data = None, 
     if symlink_source_data:
         os.symlink(os.path.abspath(org_source), os.path.join(os.path.abspath(project_dir), 'data_DICOMs'))
     bids_dir = config.config['DICOMToBIDSOptions']['BIDSDirectory']
-    datalad.api.run(cmd = 'dcm2bids_scaffold -o '+bids_dir, message = 'Setting up BIDS scaffold', outputs = [bids_dir], dataset = bids_dir)
+    datalad.api.run(cmd = 'dcm2bids_scaffold -o '+bids_dir, message = 'Setting up BIDS scaffold', dataset = bids_dir)
     config.config_json_dump(config.config['ProjectDirectory'], 'clpipe_config.json')
 
     with resource_stream(__name__, 'data/defaultConvConfig.json') as def_conv_config:
