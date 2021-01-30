@@ -249,7 +249,7 @@ class ClpipeConfigParser:
         if output_dir is not None:
             self.config['ProcessingStreams'][index][target_output]['OutputDirectory'] = os.path.abspath(output_dir)
             datalad.api.create(path=self.config['ProcessingStreams'][index][target_output]['OutputDirectory'], force=True,
-                               description=stream_name, dataset=self.config[target_output]['OutputDirectory'])
+                               description=stream_name, dataset=os.path.dirname(self.config[target_output]['OutputDirectory']))
         if output_suffix is not None:
             self.config['ProcessingStreams'][index][target_output]['OutputSuffix'] = output_suffix
         if log_dir is not None:
