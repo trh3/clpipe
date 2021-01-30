@@ -39,6 +39,6 @@ def project_setup(project_title = None, project_dir = None, source_data = None, 
 
     os.makedirs(os.path.join(config.config['ProjectDirectory'], 'analyses'), exist_ok=True)
     os.makedirs(os.path.join(config.config['ProjectDirectory'], 'scripts'), exist_ok=True)
-    datalad.api.save(path = config.config["ProjectDirectory"], recursive = True)
+    datalad.api.save(recursive = True, dataset = config.config["ProjectDirectory"])
     #print(os.path.join(os.path.abspath(project_dir), 'clpipe_config.json'))
     #_templateflow_setup(os.path.join(os.path.abspath(project_dir), 'clpipe_config.json'))
