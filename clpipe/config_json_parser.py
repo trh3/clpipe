@@ -152,9 +152,12 @@ class ClpipeConfigParser:
             self.config[target_output]['TargetDirectory'] = os.path.abspath(target_dir)
         if output_dir is not None:
             self.config[target_output]['OutputDirectory'] = os.path.abspath(output_dir)
-            datalad.api.create(path=self.config[target_output]['OutputDirectory'],
+            datalad.api.create(path=os.path.dirname(self.config[target_output]['OutputDirectory']),
                                force=True,
                                description="Preprocessed Data", dataset=self.config['ProjectDirectory'])
+            datalad.api.create(path= self.config[target_output]['OutputDirectory'],
+                               force=True,
+                               description="Preproc Default", dataset=os.path.dirname(self.config[target_output]['OutputDirectory']))
 
         if target_suffix is not None:
             self.config[target_output]['TargetSuffix'] = target_suffix
