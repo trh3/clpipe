@@ -55,11 +55,11 @@ def test_parallel_datalad(config_file = None, batch_config = None, log_dir = Non
     batch_manager = BatchManager(config.config['BatchConfig'], os.path.abspath(log_dir))
     batch_manager.update_email(config.config["EmailAddress"])
     os.makedirs(os.path.abspath(log_dir),   exist_ok=True)
-    submission_string = 'touch '+config.config['FMRIPrepOptions']['OutputDirectory']+ '/Test-{id}/Test-{id}.txt'
+    submission_string = 'touch '+config.config['FMRIPrepOptions']['OutputDirectory']+ '/{id}/{id}.txt'
     test_IDs = ["Test-" + str(i) for i in range(10)]
 
     for ID in test_IDs:
-        batch_manager.addjob(Job(ID, submission_string.format(id = ID), target_dataset= target_dataset, tmp_dir='/Test-{id}'.format(id = ID)))
+        batch_manager.addjob(Job(ID, submission_string.format(id = ID), target_dataset= target_dataset, tmp_dir='/tmp/{id}'.format(id = ID)))
 
     batch_manager.compilejobstrings()
 
