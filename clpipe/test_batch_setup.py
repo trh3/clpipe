@@ -55,7 +55,7 @@ def test_parallel_datalad(config_file = None, batch_config = None, log_dir = Non
     batch_manager = BatchManager(config.config['BatchConfig'], os.path.abspath(log_dir))
     batch_manager.update_email(config.config["EmailAddress"])
     os.makedirs(os.path.abspath(log_dir),   exist_ok=True)
-    submission_string = 'touch '+config.config['FMRIPrepOptions']['OutputDir']+ '/Test-{id}/Test-{id}.txt'
+    submission_string = 'touch '+config.config['FMRIPrepOptions']['OutputDirectory']+ '/Test-{id}/Test-{id}.txt'
     test_IDs = ["Test-" + str(i) for i in range(10)]
 
     for ID in test_IDs:
