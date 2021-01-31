@@ -92,7 +92,7 @@ class BatchManager:
 
 class Job:
 
-    def __init__(self, jobID, jobString, target_dataset, tmp_dir, merge_message):
+    def __init__(self, jobID, jobString, target_dataset, tmp_dir, merge_message = None):
         self.jobID = jobID
         self.jobString = jobString
         self.target_dataset = target_dataset
