@@ -102,7 +102,7 @@ class Job:
             self.jobString = self.git_sandwich()
 
     def git_sandwich(self):
-        prefix = "datalad clone {target_dir} {tmp_dir} && git -C {tmp_dir} annex dead here && git -C {tmp_dir} checkout -b {jobid} && ".format(target_dir = self.target_dataset, tmp_dir = self.tmp_dir, jobid = self.jobID)
+        prefix = "datalad clone {target_dir} {tmp_dir} && git -C {tmp_dir} annex dead here && git -C {tmp_dir} checkout -b {jobid} && datalad unlock -d {tmp_dir} &&".format(target_dir = self.target_dataset, tmp_dir = self.tmp_dir, jobid = self.jobID)
 
         suffix = " && datalad save -d {tmp_dir} -m \"{merge_message}\" && datalad push -d {tmp_dir} --to origin && git -C {target_dir} merge -m \"{merge_message}\"" \
                  " {jobid} && git -C {target_dir} branch -d {jobid} && " \
