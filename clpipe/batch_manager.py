@@ -104,7 +104,7 @@ class Job:
     def git_sandwich(self):
         prefix = "datalad clone {target_dir} {tmp_dir} && git -C {tmp_dir} annex dead here && git -C {tmp_dir} checkout job-{jobid} && ".format(target_dir = self.target_dataset, tmp_dir = self.branch_dataset, jobid = self.jobID)
 
-        suffix = " && datalad push -d {tmp_dir} --to origin && git -C {target_dataset} merge -m {merge_message} job-{jobid}".format(target_dir = self.target_dataset, tmp_dir = self.branch_dataset, jobid = self.jobID, merge_message = "TEMPORARY MERGE MESSAGE for Job-" + self.jobID)
+        suffix = " && datalad push -d {tmp_dir} --to origin && git -C {target_dir} merge -m {merge_message} job-{jobid}".format(target_dir = self.target_dataset, tmp_dir = self.branch_dataset, jobid = self.jobID, merge_message = "TEMPORARY MERGE MESSAGE for Job-" + self.jobID)
 
         return(prefix + self.jobString + suffix)
 
