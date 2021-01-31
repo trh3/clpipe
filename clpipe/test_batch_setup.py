@@ -50,8 +50,8 @@ def test_parallel_datalad(config_file = None, batch_config = None, log_dir = Non
     config.config_updater(config_file)
     if batch_config is not None:
         config.config['BatchConfig'] = batch_config
-    target_dataset = os.path.join(config.config['FMRIPrepOptions']['OutputDir'], "fmriprep")
-    config.config['FMRIPrepOptions']['OutputDir'] = "/tmp"
+    target_dataset = os.path.join(config.config['FMRIPrepOptions']['OutputDirectory'], "fmriprep")
+    config.config['FMRIPrepOptions']['OutputDirectory'] = "/tmp"
     batch_manager = BatchManager(config.config['BatchConfig'], os.path.abspath(log_dir))
     batch_manager.update_email(config.config["EmailAddress"])
     os.makedirs(os.path.abspath(log_dir),   exist_ok=True)
