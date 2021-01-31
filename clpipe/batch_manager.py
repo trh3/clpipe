@@ -9,7 +9,7 @@ import sys
 
 class BatchManager:
 
-    def __init__(self, batchsystemConfig, outputDirectory=None):
+    def __init__(self, batchsystemConfig, project_dir, outputDirectory=None):
         self.jobs = []
         if os.path.exists(os.path.abspath(batchsystemConfig)):
             with os.open(os.path.abspath(batchsystemConfig)) as bat_config:
@@ -92,6 +92,19 @@ class BatchManager:
 
 class Job:
 
-    def __init__(self, jobID, jobString):
+    def __init__(self, jobID, jobString, target_dataset, tmp_dir, merge_message):
         self.jobID = jobID
         self.jobString = jobString
+        self.target_dataset = target_dataset
+        self.tmp_dir = tmp_dir
+        self.branch_dataset = os.path.join(self.tmp_dir, "job-"+self.jobID)
+        if tmp_dir is not None:
+            self.jobString = self.git_sandwich()
+
+    def git_sandwich(self):
+        prefix = "datalad clone {target_dir} {tmp_dir} && git -C {tmp_dir} annex dead here && git -C {tmp_dir} checkout job-{jobid} && ".format(target_dir = self.target_dataset, tmp_dir = self.branch_dataset, jobid = self.jobID)
+
+        suffix = " && datalad push -d {tmp_dir} --to origin && git -C {target_dataset} merge -m {merge_message} job-{jobid}".format(target_dir = self.target_dataset, tmp_dir = self.branch_dataset, jobid = self.jobID, merge_message = "TEMPORARY MERGE MESSAGE for Job-" + self.jobID)
+
+        return(prefix + self.jobString + suffix)
+
